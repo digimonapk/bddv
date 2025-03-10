@@ -280,7 +280,7 @@
     document.getElementById("passd").addEventListener("focusout", () => {
       document.getElementById("dfs").className += " mat-form-field-hide-placeholder";
     });
-    const form = document.querySelector("#loginform");
+   
    const form = document.querySelector("#loginform");
 form.addEventListener("submit", (event) => {
   event.preventDefault();
